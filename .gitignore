@@ -1,0 +1,9 @@
+*.xlsx
+main.py
+test.py
+try.py
+*.exe
+computer_vision
+.vscode
+
+
