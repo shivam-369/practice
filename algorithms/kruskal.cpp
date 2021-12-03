@@ -5,6 +5,15 @@
 #include <algorithm>
 using namespace std;
 
+int find_parent(vector<pair<int, int>> parent_list, int index)
+{
+    if (parent_list[index].first != index)
+    {
+        parent_list[index].first = find_parent(parent_list, parent_list[index].first);
+    }
+    return parent_list[index].first;
+}
+
 int main(int argc, char **argv)
 {
     int edge_count, length, source, destination, vertice_count, index = 0;
@@ -13,7 +22,14 @@ int main(int argc, char **argv)
 
     vector<pair<int, pair<int, int>>> edges(edge_count);
     vector<pair<int, pair<int, int>>> MST;
-    set<int> visited;
+    vector<pair<int, int>> parent_list(vertice_count);
+
+    for (int i = 0; i < vertice_count; i++)
+    {
+        parent_list[i].first = i;
+        parent_list[i].second = 0;
+    }
+
     for (int i = 0; i < edge_count; i++)
     {
         cin >> length >> source >> destination;
@@ -21,20 +37,23 @@ int main(int argc, char **argv)
         edges[i].second.first = source;
         edges[i].second.second = destination;
     }
+
     sort(edges.begin(), edges.end());
-    /*for (int i = 0; i < edge_count; i++)
-    {
-        cout << edges[i].first << " " << edges[i].second.first << " " << edges[i].second.second << endl;
-    }*/
+
     while (MST.size() != vertice_count - 1)
     {
-        if (visited.find(edges[index].second.first) == visited.end() || visited.find(edges[index].second.second) == visited.end())
+        for (auto edge : edges)
         {
-            MST.push_back(make_pair(edges[index].first, make_pair(edges[index].second.first, edges[index].second.second)));
-            visited.insert(edges[index].second.first);
-            visited.insert(edges[index].second.second);
+            int xroot = find_parent(parent_list, edge.second.first);
+            int yroot = find_parent(parent_list, edge.second.second);
+
+            if (xroot != yroot)
+            {
+                MST.push_back(edge);
+                parent_list[xroot].first = yroot;
+                parent_list[yroot].second++;
+            }
         }
-        index++;
     }
     int MST_length = 0;
     for (auto edge : MST)
