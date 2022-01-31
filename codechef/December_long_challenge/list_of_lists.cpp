@@ -26,17 +26,21 @@ int main(int argc, char ** argv)
 
         for(auto ptr = counts.begin(); ptr != counts.end(); ptr++)
         {
-            if(p->second > max_freq)
+            if(ptr->second > max_freq)
             {
-                max_freq = p->second;
+                max_freq = ptr->second;
             }
         }
 
-        if(max_freq <= 1)
+        if(max_freq == n)
+        {
+            cout << 0 << "\n";
+        }
+        else if(max_freq <= 1)
         {
             cout << -1 << "\n";
         }else{
-            cout << (max_freq % 2) + (n - max_freq) + max_freq / 2 << "\n";
+            cout << (n - max_freq) + 1 << "\n";
         }
     }
 
