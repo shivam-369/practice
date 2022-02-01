@@ -7,7 +7,6 @@ int main(int argc, char ** argv)
     string s;
     cin >> t;
     while(t--){
-
         cin >> s;
         count_0 = count_1 = 0;
 
@@ -18,11 +17,15 @@ int main(int argc, char ** argv)
                 count_1++;
             }
         }
-        if(count_0 == count_1){
-            cout << 0 << endl;
-        }else{
+
+        if(count_0 != count_1){
             cout << min(count_0, count_1) << endl;
+        }else if(s.length() > 2){
+            cout << count_0 - 1 << endl;
+        }else{
+            cout << 0 << endl;
         }
+
     }
 
     return 0;
